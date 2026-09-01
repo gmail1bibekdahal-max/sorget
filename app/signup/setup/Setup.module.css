@@ -1,0 +1,251 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  background-color: var(--olvy-bg);
+}
+
+/* Left */
+.left {
+  flex: 1;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 48px 56px;
+  overflow-y: auto;
+}
+
+.logo {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--olvy-dark);
+  letter-spacing: -0.5px;
+  text-decoration: none;
+  margin-bottom: 36px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  width: fit-content;
+  max-width: max-content;
+  line-height: 1;
+}
+
+.logo span {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+}
+
+
+.stepBadge {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--olvy-pink);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+.progressBar {
+  width: 100%;
+  height: 4px;
+  background: #f0e0ea;
+  border-radius: 99px;
+  margin-bottom: 32px;
+  overflow: hidden;
+}
+
+.progressFill {
+  width: 66%;
+  height: 100%;
+  background: var(--olvy-pink);
+  border-radius: 99px;
+}
+
+.heading {
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--olvy-dark);
+  margin: 0 0 8px;
+  letter-spacing: -0.5px;
+}
+
+.sub {
+  font-size: 15px;
+  color: var(--olvy-grey);
+  margin: 0 0 32px;
+  line-height: 1.6;
+  max-width: 420px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  max-width: 460px;
+}
+
+.field {
+  margin-bottom: 20px;
+}
+
+.label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--olvy-dark);
+  margin-bottom: 7px;
+}
+
+.req {
+  color: var(--olvy-pink);
+}
+
+.input,
+.select {
+  width: 100%;
+  padding: 13px 16px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 15px;
+  font-family: inherit;
+  color: var(--olvy-dark);
+  background: #fff;
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+  appearance: none;
+}
+
+.select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23969AA0' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 40px;
+  cursor: pointer;
+}
+
+.input:focus,
+.select:focus {
+  border-color: var(--olvy-pink);
+}
+
+.submitBtn {
+  width: 100%;
+  padding: 15px;
+  background-color: var(--olvy-pink);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 8px;
+}
+
+.submitBtn:hover {
+  background-color: #9a0a56;
+}
+
+/* Right */
+.right {
+  flex: 1;
+  background: var(--olvy-pink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 64px;
+  position: relative;
+  overflow: hidden;
+}
+
+.right::before {
+  content: '';
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+  top: -100px;
+  right: -100px;
+}
+
+.right::after {
+  content: '';
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+  bottom: -80px;
+  left: -80px;
+}
+
+.rightContent {
+  position: relative;
+  z-index: 1;
+  max-width: 420px;
+}
+
+.iconGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 36px;
+}
+
+.iconCard {
+  background: rgba(255,255,255,0.15);
+  border-radius: 14px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  backdrop-filter: blur(4px);
+  transition: background 0.2s;
+}
+
+.iconCard:hover {
+  background: rgba(255,255,255,0.25);
+}
+
+.rightHeading {
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 12px;
+  letter-spacing: -0.5px;
+}
+
+.rightSub {
+  font-size: 16px;
+  color: rgba(255,255,255,0.75);
+  line-height: 1.6;
+  margin: 0 0 28px;
+}
+
+.featureList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.featureList li {
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@media (max-width: 900px) {
+  .page { flex-direction: column; }
+  .right { display: none; }
+  .left { padding: 36px 24px; }
+}

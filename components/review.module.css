@@ -1,0 +1,163 @@
+/* Review / Case Study Section */
+.reviewSection {
+  background-color: var(--olvy-bg);
+  padding: 80px 24px;
+}
+
+.reviewContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 60px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+  display: flex;
+  gap: 60px;
+  align-items: flex-start;
+}
+
+.reviewLeft {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.reviewAuthor {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 60px;
+}
+
+.reviewAvatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 16px;
+}
+
+.reviewerName {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--olvy-dark);
+  margin-bottom: 4px;
+}
+
+.reviewerTitle {
+  font-size: 16px;
+  color: var(--olvy-grey);
+}
+
+.reviewHeadline {
+  font-size: clamp(28px, 4vw, 48px);
+  line-height: 1.2;
+  font-weight: 700;
+  color: var(--olvy-dark);
+  margin: 0;
+  letter-spacing: -1px;
+}
+
+.headlineGrey {
+  color: var(--olvy-grey);
+}
+
+.reviewRight {
+  flex: 1.5;
+  display: flex;
+  flex-direction: column;
+  padding-top: 10px;
+}
+
+.reviewMetricContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 40px;
+}
+
+.metricLeft {
+  display: flex;
+  flex-direction: column;
+}
+
+.metricValue {
+  font-size: 48px;
+  font-weight: 700;
+  color: #209656;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.metricLabel {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #209656;
+}
+
+.metricIcon {
+  color: #209656;
+}
+
+.reviewText {
+  font-size: 18px;
+  line-height: 1.8;
+  color: var(--olvy-dark);
+  margin-bottom: 40px;
+}
+
+.caseBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background-color: #fef2f8;
+  color: var(--olvy-pink);
+  padding: 12px 24px;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 16px;
+  text-decoration: none;
+  width: fit-content;
+  transition: background 0.3s;
+}
+
+.caseBtn:hover {
+  background-color: #fce7f3;
+}
+
+.caseBtnIcon {
+  background-color: var(--olvy-pink);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+@media (max-width: 900px) {
+  .reviewContainer {
+    flex-direction: column;
+    padding: 32px 24px;
+    gap: 32px;
+  }
+  .reviewMetricContainer {
+    flex-direction: column;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .reviewSection {
+    padding: 48px 16px;
+  }
+  .reviewContainer {
+    padding: 24px 16px;
+    border-radius: 16px;
+  }
+  .reviewText {
+    font-size: 16px;
+  }
+}

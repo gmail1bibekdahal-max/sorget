@@ -1,0 +1,256 @@
+.hubSection {
+  position: relative;
+  background-color: var(--olvy-bg);
+  padding-top: 80px;
+  padding-bottom: 160px;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+  height: 450px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.linesLayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Marketing Source Icons */
+.appIcon {
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15), 0 2px 8px rgba(0, 0, 0, 0.10);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+/* Positioning the icons around the top arc */
+.icon1 { top: 40px; left: 22%; }
+.icon2 { top: 5px; left: 28%; }
+.icon3 { top: 45px; left: 35%; }
+.icon4 { top: -20px; left: 41%; }
+.icon5 { top: 40px; left: 47%; }
+.icon6 { top: 10px; left: 54%; }
+.icon7 { top: 40px; left: 60%; }
+.icon8 { top: -20px; left: 67%; }
+
+/* The Central Visitor Card */
+/* New Professional Card Styles */
+.attributionCard {
+  position: absolute;
+  top: 260px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 24px;
+  width: 480px;
+  max-width: 90%;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  border: 1px solid #f3f4f6;
+  z-index: 20;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.avatarWrap {
+  position: relative;
+  width: 48px;
+  height: 48px;
+}
+
+.avatarImg {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: #F8B2D7;
+}
+
+.statusDot {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 12px;
+  height: 12px;
+  background-color: #10B981;
+  border: 2px solid #fff;
+  border-radius: 50%;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.userName {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--olvy-dark);
+}
+
+.userEmail {
+  font-size: 13px;
+  color: var(--olvy-grey);
+}
+
+.proBadge {
+  margin-left: auto;
+  background-color: rgba(187, 12, 104, 0.1);
+  color: var(--olvy-pink);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 4px 8px;
+  border-radius: 12px;
+}
+
+.dataGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.dataItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: var(--olvy-bg);
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.dataIcon {
+  background: #fff;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--olvy-pink);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.dataLabel {
+  display: block;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--olvy-grey);
+  margin-bottom: 2px;
+}
+
+.dataValue {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--olvy-dark);
+}
+
+/* Timeline Styles */
+.timeline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.timelineStep {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--olvy-grey);
+  font-weight: 500;
+}
+
+.timelineDot {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #e5e7eb;
+  color: #fff;
+}
+
+.completed .timelineDot {
+  background-color: #10B981;
+}
+
+.active .timelineDot {
+  background-color: var(--olvy-pink);
+  box-shadow: 0 0 0 4px rgba(187, 12, 104, 0.15);
+}
+
+.active {
+  color: var(--olvy-pink);
+  font-weight: 700;
+}
+
+.timelineLine {
+  flex-grow: 1;
+  height: 2px;
+  background-color: #e5e7eb;
+  margin: 0 10px;
+  margin-bottom: 20px; /* Align with dots */
+}
+
+@media (max-width: 768px) {
+  .hubSection {
+    padding-top: 40px;
+    padding-bottom: 60px;
+  }
+  .container {
+    height: auto;
+    min-height: unset;
+  }
+  .appIcon, .linesLayer {
+    display: none;
+  }
+  .attributionCard {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .attributionCard {
+    padding: 16px;
+    border-radius: 14px;
+  }
+  .dataGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}

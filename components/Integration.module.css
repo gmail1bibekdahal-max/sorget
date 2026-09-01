@@ -1,0 +1,81 @@
+/* Integration Section (Works with your tools) */
+.integrationSection {
+  background-color: #ffffff;
+  padding: 80px 24px;
+}
+
+.integrationContainer {
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.integrationTitle {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--olvy-dark);
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.integrationSubtitle {
+  font-size: 18px;
+  color: var(--olvy-grey);
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 60px auto;
+  line-height: 1.6;
+}
+
+.logoGrid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.logoCard {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  width: 180px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+  transition: box-shadow 0.3s ease;
+}
+
+.logoCard:hover {
+  box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+}
+
+.logoImage {
+  max-width: 100%;
+  max-height: 50px;
+  object-fit: contain;
+}
+
+@media (max-width: 768px) {
+  .logoCard {
+    width: 140px;
+    height: 80px;
+  }
+  .integrationTitle {
+    font-size: 24px;
+  }
+  .integrationSubtitle {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .integrationSection {
+    padding: 48px 16px;
+  }
+  .logoCard {
+    width: 120px;
+    height: 70px;
+  }
+}

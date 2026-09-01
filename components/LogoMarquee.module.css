@@ -1,0 +1,125 @@
+.marqueeSection {
+  width: 100%;
+  overflow: hidden;
+  padding: 48px 0;
+  background-color: var(--olvy-bg);
+}
+
+.marqueeTrack {
+  display: flex;
+  align-items: center;
+  gap: 80px;
+  width: max-content;
+  animation: scroll 35s linear infinite;
+}
+
+.marqueeTrack:hover {
+  animation-play-state: paused;
+}
+
+.logoItem {
+  font-size: clamp(22px, 3vw, 38px);
+  color: #000000;
+  white-space: nowrap;
+  opacity: 0.85;
+  transition: opacity 0.3s ease;
+}
+
+.logoItem:hover {
+  opacity: 1;
+}
+
+/* Brand specific mimics */
+.hubspot {
+  font-family: Arial, sans-serif;
+  font-weight: 900;
+  letter-spacing: -1.5px;
+}
+
+.salesforce {
+  font-family: Arial, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.pipedrive {
+  font-family: 'Trebuchet MS', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.zoho {
+  font-family: Arial, sans-serif;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.gravityForms {
+  font-family: 'Segoe UI', sans-serif;
+  font-weight: 700;
+}
+
+.wpforms {
+  font-family: 'Arial Black', sans-serif;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+}
+
+.contactForm7 {
+  font-family: 'Courier New', monospace;
+  font-weight: 700;
+  letter-spacing: -1px;
+}
+
+.webflow {
+  font-family: Verdana, sans-serif;
+  font-weight: 700;
+  letter-spacing: -1.5px;
+}
+
+.wix {
+  font-family: Arial, sans-serif;
+  font-weight: 700;
+  font-style: italic;
+  letter-spacing: -1px;
+}
+
+.shopify {
+  font-family: Georgia, serif;
+  font-weight: 700;
+  font-style: italic;
+  letter-spacing: -1px;
+}
+
+.stripe {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.paddle {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 800;
+}
+
+.zapier {
+  font-family: Impact, 'Arial Black', sans-serif;
+  font-weight: 900;
+  letter-spacing: 0px;
+}
+
+.make {
+  font-family: Tahoma, sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}

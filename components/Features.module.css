@@ -1,0 +1,137 @@
+.features {
+  position: relative;
+  padding: 40px 150px 80px;
+  overflow: hidden;
+  background-color: var(--olvy-bg);
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 24px;
+  position: relative;
+  z-index: 10;
+}
+
+/* The abstract fluid background on the right */
+.fluidBackground {
+  position: absolute;
+  top: 0;
+  right: -10%;
+  width: 60%;
+  height: 100%;
+  /* Mocking the 3D fluid with gradients. Replace with your actual image URL */
+  background: radial-gradient(circle at 80% 60%, rgba(187, 12, 104, 0.8) 0%, rgba(224, 151, 172, 0.4) 40%, transparent 70%);
+  background-size: cover;
+  background-position: center;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Optional thin vertical center line */
+.container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  height: 100%;
+  border-left: 1px solid rgba(0,0,0,0.05);
+  z-index: -1;
+}
+
+.headline {
+  font-size: clamp(32px, 5vw, 64px);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -2px;
+  margin-bottom: 24px;
+  max-width: 700px;
+}
+
+.subheadline {
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--olvy-grey);
+  line-height: 1.7;
+  max-width: 580px;
+  margin-bottom: 80px;
+}
+
+.headlinePink {
+  color: var(--olvy-pink);
+}
+
+.headlineDark {
+  color: var(--olvy-dark);
+}
+
+/* Cards Grid */
+.cardsGrid {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 48px 32px;
+  text-align: center;
+  flex: 1;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+  position: relative;
+  z-index: 20;
+}
+
+.cardIcon {
+  width: 48px;
+  height: 48px;
+  background-color: var(--olvy-pink);
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 24px auto;
+  color: white;
+}
+
+.cardTitle {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--olvy-dark);
+  margin-bottom: 20px;
+}
+
+.cardDescription {
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--olvy-grey);
+  line-height: 1.8;
+}
+
+@media (max-width: 900px) {
+  .features {
+    padding: 40px 24px 60px;
+  }
+  .headline {
+    margin-bottom: 40px;
+  }
+  .fluidBackground {
+    width: 100%;
+    right: -50%;
+    opacity: 0.3;
+  }
+  .cardsGrid {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .features {
+    padding: 32px 16px 48px;
+  }
+  .card {
+    padding: 32px 20px;
+  }
+}

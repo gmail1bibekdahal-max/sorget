@@ -1,0 +1,117 @@
+.page {
+  background-color: var(--olvy-bg);
+}
+
+/* Hero */
+.hero {
+  text-align: center;
+  padding: 100px 24px 60px;
+}
+
+.heroLabel {
+  display: inline-block;
+  background-color: rgba(187, 12, 104, 0.1);
+  color: var(--olvy-pink);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 6px 16px;
+  border-radius: 20px;
+  margin-bottom: 24px;
+}
+
+.heroTitle {
+  font-size: 56px;
+  font-weight: 700;
+  color: var(--olvy-dark);
+  letter-spacing: -2px;
+  line-height: 1.1;
+  margin: 0 auto 16px;
+}
+
+.heroSubtitle {
+  font-size: 18px;
+  color: var(--olvy-grey);
+  max-width: 580px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Categories grid */
+.categoriesSection {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 24px 100px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+}
+
+.categoryCard {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 36px;
+  border: 1.5px solid #e5e7eb;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.categoryCard:hover {
+  border-color: var(--olvy-lightpink);
+  box-shadow: 0 12px 32px rgba(187, 12, 104, 0.08);
+}
+
+.categoryHeader {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.categoryIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: rgba(187, 12, 104, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--olvy-pink);
+  flex-shrink: 0;
+}
+
+.categoryName {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--olvy-dark);
+  margin: 0;
+}
+
+.categoryWhy {
+  font-size: 14px;
+  color: var(--olvy-grey);
+  line-height: 1.6;
+  margin: 0 0 20px;
+}
+
+.toolsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.toolChip {
+  background: var(--olvy-bg);
+  color: var(--olvy-dark);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid #e5e7eb;
+}
+
+@media (max-width: 900px) {
+  .categoriesSection { grid-template-columns: 1fr; }
+  .heroTitle { font-size: 40px; }
+}
