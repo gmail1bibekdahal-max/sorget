@@ -160,11 +160,27 @@ export async function saveLead(data: LeadPayload) {
     const visitor_id = getVisitorId();
     const session_id = getSessionId();
 
-    if (data.email) {
-      setUserEmail(data.email);
+    // 1. Detect email from arguments, localStorage, or currently authenticated Supabase user (e.g. Google OAuth)
+    let detectedEmail = data.email || null;
+    let detectedName = data.full_name || null;
+
+    if (!detectedEmail) {
+      try {
+        const { data: authData } = await supabase.auth.getUser();
+        if (authData?.user?.email) {
+          detectedEmail = authData.user.email;
+          detectedName = detectedName || (authData.user.user_metadata?.full_name as string) || (authData.user.user_metadata?.name as string) || null;
+        }
+      } catch {
+        // ignore
+      }
     }
 
-    // Accumulate lead data in sessionStorage across multi-step onboarding
+    if (detectedEmail) {
+      setUserEmail(detectedEmail);
+    }
+
+    // 2. Accumulate lead data in sessionStorage across multi-step onboarding
     let cachedLead: Record<string, unknown> = {};
     if (typeof window !== "undefined") {
       try {
@@ -178,8 +194,8 @@ export async function saveLead(data: LeadPayload) {
     const mergedLead = {
       ...cachedLead,
       ...data,
-      email: data.email || (cachedLead.email as string) || getUserEmail() || null,
-      full_name: data.full_name || (cachedLead.full_name as string) || null,
+      email: detectedEmail || (cachedLead.email as string) || getUserEmail() || null,
+      full_name: detectedName || (cachedLead.full_name as string) || null,
       company: data.company || (cachedLead.company as string) || null,
       website: data.website || (cachedLead.website as string) || null,
       cms: data.cms || (cachedLead.cms as string) || null,
@@ -197,12 +213,15 @@ export async function saveLead(data: LeadPayload) {
       }
     }
 
-    // Check if a lead row already exists for this session
-    const { data: existingRows } = await supabase
-      .from("leads")
-      .select("id")
-      .eq("session_id", session_id)
-      .limit(1);
+    // 3. Check if a lead row already exists for this session OR email
+    let query = supabase.from("leads").select("id").limit(1);
+    if (mergedLead.email) {
+      query = supabase.from("leads").select("id").or(`session_id.eq.${session_id},email.eq.${mergedLead.email}`).limit(1);
+    } else {
+      query = supabase.from("leads").select("id").eq("session_id", session_id).limit(1);
+    }
+
+    const { data: existingRows } = await query;
 
     const payload = {
       visitor_id,
@@ -221,11 +240,12 @@ export async function saveLead(data: LeadPayload) {
     };
 
     if (existingRows && existingRows.length > 0) {
-      // Update the existing row for this user session
+      // Update the existing row
+      const existingId = existingRows[0].id;
       const { error } = await supabase
         .from("leads")
         .update(payload)
-        .eq("session_id", session_id);
+        .eq("id", existingId);
       if (error) console.warn("[Analytics] Update lead notice:", error.message);
     } else {
       // Insert new lead row

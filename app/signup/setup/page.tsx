@@ -1,11 +1,11 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./Setup.module.css";
-import { track, saveLead } from "@/lib/track";
+import { track, saveLead, setUserEmail } from "@/lib/track";
+import { supabase } from "@/lib/supabase";
 
 const CMS_OPTIONS = ["WordPress", "Webflow", "Squarespace", "Wix", "Shopify", "Framer", "Custom / Other"];
 const FORM_OPTIONS = ["Gravity Forms", "Typeform", "HubSpot Forms", "Webflow Forms", "Formstack", "Jotform", "Custom / Other"];
@@ -18,6 +18,27 @@ export default function SetupPage() {
   const [cms, setCms] = useState("");
   const [formTool, setFormTool] = useState("");
   const [crm, setCrm] = useState("");
+
+  // Automatically detect user from Supabase session (e.g. Google OAuth redirect)
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user?.email) {
+          setUserEmail(user.email);
+          saveLead({
+            email: user.email,
+            full_name: (user.user_metadata?.full_name as string) || (user.user_metadata?.name as string) || undefined,
+            step_reached: "setup",
+          });
+        }
+      } catch {
+        // ignore
+      }
+    };
+    fetchUser();
+  }, []);
+
 
   const handleContinue = (e: React.FormEvent) => {
     e.preventDefault();

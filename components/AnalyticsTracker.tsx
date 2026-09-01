@@ -2,7 +2,8 @@
 
 import { useEffect, useRef } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
-import { track, setUserEmail } from "@/lib/track";
+import { track, setUserEmail, saveLead } from "@/lib/track";
+import { supabase } from "@/lib/supabase";
 
 export default function AnalyticsTracker() {
   const pathname = usePathname();
@@ -11,7 +12,42 @@ export default function AnalyticsTracker() {
   const lastClickTimeRef = useRef<number>(0);
   const lastClickTargetRef = useRef<string>("");
 
-  // 1. Clean Page View Tracking on route change
+  // 1. Automatically sync authenticated user (e.g. Google OAuth login)
+  useEffect(() => {
+    const syncUser = async () => {
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user?.email) {
+          setUserEmail(user.email);
+          saveLead({
+            email: user.email,
+            full_name: (user.user_metadata?.full_name as string) || (user.user_metadata?.name as string) || undefined,
+            step_reached: "authenticated",
+          });
+        }
+      } catch {
+        // ignore
+      }
+    };
+    syncUser();
+
+    const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (session?.user?.email) {
+        setUserEmail(session.user.email);
+        saveLead({
+          email: session.user.email,
+          full_name: (session.user.user_metadata?.full_name as string) || (session.user.user_metadata?.name as string) || undefined,
+          step_reached: event === "SIGNED_IN" ? "signed_in" : "auth_update",
+        });
+      }
+    });
+
+    return () => {
+      authListener?.subscription?.unsubscribe();
+    };
+  }, []);
+
+  // 2. Clean Page View Tracking on route change
   useEffect(() => {
     const fullPath = searchParams?.toString()
       ? `${pathname}?${searchParams.toString()}`
@@ -30,6 +66,7 @@ export default function AnalyticsTracker() {
       });
     }
   }, [pathname, searchParams]);
+
 
   // 2. Global Click Auto-Tracker (Cleaned & Deduplicated)
   useEffect(() => {
