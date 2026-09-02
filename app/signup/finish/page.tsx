@@ -29,30 +29,35 @@ export default function FinishPage() {
         <span>Sorget</span>
       </Link>
 
-
-      <h1 className={styles.heading}>You&apos;re ready to go</h1>
-      <p className={styles.sub}>
-        We&apos;ve saved your Sorget setup.
-        <br /><br />
-        We&apos;re currently onboarding our first users and validating the product. We&apos;ll use the information you provided to prepare your Sorget workspace.
-        <br /><br />
-        <strong>We&apos;ll be in touch soon.</strong>
+      <h1 className={styles.heading} style={{ maxWidth: 640 }}>
+        See where your customers actually come from.
+      </h1>
+      <p className={styles.sub} style={{ maxWidth: 580, marginTop: "16px", marginBottom: "40px" }}>
+        Sorget connects your marketing campaigns to leads, customers and revenue.
+        <br />
+        <br />
+        We&apos;re currently onboarding a small number of companies for our private beta.
       </p>
 
-      <Link
-        href="/"
+      <a
+        href="https://app.attributer.io/signup"
+        target="_blank"
+        rel="noopener noreferrer"
         className={`${styles.planBtn} ${styles.planBtnFeatured}`}
-        style={{ maxWidth: 220, textAlign: "center", textDecoration: "none" }}
-        onClick={() => track({
-          event_name: "click_back_to_sorget",
-          event_type: "click",
-          target_text: "Back to Sorget",
-          properties: { page: "signup_finish" },
-        })}
+        style={{ maxWidth: 280, textAlign: "center", textDecoration: "none", display: "inline-block" }}
+        onClick={() =>
+          track({
+            event_name: "click_apply_early_access",
+            event_type: "click",
+            target_text: "Apply for early access",
+            properties: { page: "signup_finish" },
+          })
+        }
       >
-        Back to Sorget
-      </Link>
+        → Apply for early access
+      </a>
     </div>
   );
 }
+
 
