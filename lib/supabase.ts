@@ -9,6 +9,11 @@ const cleanKey = rawKey.trim();
 
 export const supabase = createClient(
   cleanUrl || "https://placeholder.supabase.co",
-  cleanKey || "placeholder-anon-key"
+  cleanKey || "placeholder-anon-key",
+  {
+    auth: {
+      flowType: "pkce",
+    },
+  }
 );
 
