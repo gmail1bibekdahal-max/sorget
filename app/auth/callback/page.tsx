@@ -1,4 +1,4 @@
-"use client";
+ï»¿"use client";
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -9,8 +9,6 @@ export default function AuthCallbackPage() {
 
   useEffect(() => {
     const handleCallback = async () => {
-      // exchangeCodeForSession reads the PKCE verifier from localStorage
-      // (set by signInWithOAuth) and exchanges the ?code= for a real session.
       const { error } = await supabase.auth.exchangeCodeForSession(
         window.location.href
       );
@@ -21,7 +19,6 @@ export default function AuthCallbackPage() {
         return;
       }
 
-      // Honour the ?next= param so different flows can redirect differently
       const params = new URLSearchParams(window.location.search);
       const next = params.get("next") ?? "/signup/setup";
       router.replace(next);
@@ -55,7 +52,7 @@ export default function AuthCallbackPage() {
       >
         <path d="M21 12a9 9 0 1 1-6.219-8.56" />
       </svg>
-      <p style={{ opacity: 0.6, fontSize: "14px" }}>Signing you in…</p>
+      <p style={{ opacity: 0.6, fontSize: "14px" }}>Signing you in...</p>
       <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
     </div>
   );
