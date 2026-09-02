@@ -60,7 +60,7 @@ export default function SetupPage() {
     });
 
     saveLead(setupData);
-    router.push("/signup/plan");
+    router.push("/signup/finish");
   };
 
   return (

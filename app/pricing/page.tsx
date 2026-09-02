@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import GetStarted from "@/components/GetStarted";
 import Footer from "@/components/Footer";
 import styles from "./Pricing.module.css";
+import { track } from "@/lib/track";
 
 const CheckIcon = ({ featured }: { featured?: boolean }) => (
   <span className={`${styles.checkIcon} ${featured ? styles.checkIconFeatured : ""}`}>
@@ -21,7 +23,6 @@ interface SingleSitePlan {
   siteCount: string;
   leads: string;
   cta: string;
-  ctaLink: string;
   featured?: boolean;
 }
 
@@ -32,7 +33,6 @@ interface MultiSitePlan {
   siteCount?: string;
   desc?: string;
   cta: string;
-  ctaLink: string;
   featured?: boolean;
 }
 
@@ -44,7 +44,6 @@ const singleSitePlans: SingleSitePlan[] = [
     siteCount: "1 Site",
     leads: "Up to 100 Leads Per Month",
     cta: "START FREE TRIAL",
-    ctaLink: "https://app.attributer.io/signup",
     featured: false,
   },
   {
@@ -54,7 +53,6 @@ const singleSitePlans: SingleSitePlan[] = [
     siteCount: "1 Site",
     leads: "Up to 500 Leads Per Month",
     cta: "START FREE TRIAL",
-    ctaLink: "https://app.attributer.io/signup",
     featured: true,
   },
   {
@@ -64,7 +62,6 @@ const singleSitePlans: SingleSitePlan[] = [
     siteCount: "1 Site",
     leads: "Up to 1,000 Leads Per Month",
     cta: "START FREE TRIAL",
-    ctaLink: "https://app.attributer.io/signup",
     featured: false,
   },
 ];
@@ -76,7 +73,6 @@ const multiSitePlans: MultiSitePlan[] = [
     currencyPeriod: "USD per month",
     siteCount: "10 Sites",
     cta: "GET STARTED",
-    ctaLink: "https://app.attributer.io/signup/multisite",
     featured: false,
   },
   {
@@ -85,7 +81,6 @@ const multiSitePlans: MultiSitePlan[] = [
     currencyPeriod: "USD per month",
     siteCount: "25 Sites",
     cta: "GET STARTED",
-    ctaLink: "https://app.attributer.io/signup/multisite",
     featured: true,
   },
   {
@@ -94,7 +89,6 @@ const multiSitePlans: MultiSitePlan[] = [
     currencyPeriod: "USD per month",
     siteCount: "50 Sites",
     cta: "GET STARTED",
-    ctaLink: "https://app.attributer.io/signup/multisite",
     featured: false,
   },
   {
@@ -102,13 +96,23 @@ const multiSitePlans: MultiSitePlan[] = [
     price: "Contact Us",
     desc: "Tailored multi-site enterprise plans",
     cta: "TALK TO US",
-    ctaLink: "https://attributer.io/multi-site/schedule",
     featured: false,
   },
 ];
 
 export default function PricingPage() {
   const [activeTab, setActiveTab] = useState<"single" | "multiple">("single");
+  const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
+
+  const handleSelectPlan = (planName: string) => {
+    track({
+      event_name: "select_pricing_plan",
+      event_type: "click",
+      target_text: planName,
+      properties: { page: "pricing", plan: planName },
+    });
+    setSelectedPlan(planName);
+  };
 
   return (
     <div className={styles.page}>
@@ -139,6 +143,27 @@ export default function PricingPage() {
         </div>
       </section>
 
+      {/* Thank You overlay modal */}
+      {selectedPlan && (
+        <div className={styles.modalOverlay} onClick={() => setSelectedPlan(null)}>
+          <div className={styles.modalCard} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.modalCheck}>✓</div>
+            <h2 className={styles.modalTitle}>Thank You!</h2>
+            <p className={styles.modalSub}>
+              Thank you for choosing the <strong>{selectedPlan}</strong> plan. We&apos;ve received your selection and our team will get in touch with you shortly.
+            </p>
+            <div className={styles.modalActions}>
+              <Link href="/" className={styles.modalPrimaryBtn}>
+                Back to Landing Page
+              </Link>
+              <a href="https://www.sorget.site/login" className={styles.modalSecondaryBtn}>
+                Go to Login
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
+
       {activeTab === "single" ? (
         <div className={styles.cardsSectionSingle}>
           {singleSitePlans.map((plan) => (
@@ -162,14 +187,13 @@ export default function PricingPage() {
                 </li>
               </ul>
 
-              <a
-                href={plan.ctaLink}
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                type="button"
+                onClick={() => handleSelectPlan(plan.name)}
                 className={`${styles.planBtn} ${plan.featured ? styles.planBtnFeatured : ""}`}
               >
                 {plan.cta}
-              </a>
+              </button>
             </div>
           ))}
         </div>
@@ -201,14 +225,13 @@ export default function PricingPage() {
                 </li>
               </ul>
 
-              <a
-                href={plan.ctaLink}
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                type="button"
+                onClick={() => handleSelectPlan(plan.name)}
                 className={`${styles.planBtn} ${plan.featured ? styles.planBtnFeatured : ""}`}
               >
                 {plan.cta}
-              </a>
+              </button>
             </div>
           ))}
         </div>
@@ -219,4 +242,5 @@ export default function PricingPage() {
     </div>
   );
 }
+
 

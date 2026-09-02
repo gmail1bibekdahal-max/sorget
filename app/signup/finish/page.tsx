@@ -39,10 +39,8 @@ export default function FinishPage() {
         We&apos;re currently onboarding a small number of companies for our private beta.
       </p>
 
-      <a
-        href="https://app.attributer.io/signup"
-        target="_blank"
-        rel="noopener noreferrer"
+      <Link
+        href="/pricing"
         className={`${styles.planBtn} ${styles.planBtnFeatured}`}
         style={{ maxWidth: 280, textAlign: "center", textDecoration: "none", display: "inline-block" }}
         onClick={() =>
@@ -55,7 +53,7 @@ export default function FinishPage() {
         }
       >
         → Apply for early access
-      </a>
+      </Link>
     </div>
   );
 }
