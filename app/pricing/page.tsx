@@ -102,17 +102,6 @@ const multiSitePlans: MultiSitePlan[] = [
 
 export default function PricingPage() {
   const [activeTab, setActiveTab] = useState<"single" | "multiple">("single");
-  const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
-
-  const handleSelectPlan = (planName: string) => {
-    track({
-      event_name: "select_pricing_plan",
-      event_type: "click",
-      target_text: planName,
-      properties: { page: "pricing", plan: planName },
-    });
-    setSelectedPlan(planName);
-  };
 
   return (
     <div className={styles.page}>
@@ -143,27 +132,6 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* Thank You overlay modal */}
-      {selectedPlan && (
-        <div className={styles.modalOverlay} onClick={() => setSelectedPlan(null)}>
-          <div className={styles.modalCard} onClick={(e) => e.stopPropagation()}>
-            <div className={styles.modalCheck}>✓</div>
-            <h2 className={styles.modalTitle}>Thank You!</h2>
-            <p className={styles.modalSub}>
-              Thank you for choosing the <strong>{selectedPlan}</strong> plan. We&apos;ve received your selection and our team will get in touch with you shortly.
-            </p>
-            <div className={styles.modalActions}>
-              <Link href="/" className={styles.modalPrimaryBtn}>
-                Back to Landing Page
-              </Link>
-              <a href="https://www.sorget.site/login" className={styles.modalSecondaryBtn}>
-                Go to Login
-              </a>
-            </div>
-          </div>
-        </div>
-      )}
-
       {activeTab === "single" ? (
         <div className={styles.cardsSectionSingle}>
           {singleSitePlans.map((plan) => (
@@ -187,13 +155,20 @@ export default function PricingPage() {
                 </li>
               </ul>
 
-              <button
-                type="button"
-                onClick={() => handleSelectPlan(plan.name)}
+              <Link
+                href="/login"
                 className={`${styles.planBtn} ${plan.featured ? styles.planBtnFeatured : ""}`}
+                onClick={() =>
+                  track({
+                    event_name: "click_pricing_plan_login",
+                    event_type: "click",
+                    target_text: plan.cta,
+                    properties: { page: "pricing", plan: plan.name },
+                  })
+                }
               >
                 {plan.cta}
-              </button>
+              </Link>
             </div>
           ))}
         </div>
@@ -225,13 +200,20 @@ export default function PricingPage() {
                 </li>
               </ul>
 
-              <button
-                type="button"
-                onClick={() => handleSelectPlan(plan.name)}
+              <Link
+                href="/login"
                 className={`${styles.planBtn} ${plan.featured ? styles.planBtnFeatured : ""}`}
+                onClick={() =>
+                  track({
+                    event_name: "click_pricing_plan_login",
+                    event_type: "click",
+                    target_text: plan.cta,
+                    properties: { page: "pricing", plan: plan.name },
+                  })
+                }
               >
                 {plan.cta}
-              </button>
+              </Link>
             </div>
           ))}
         </div>
@@ -242,5 +224,6 @@ export default function PricingPage() {
     </div>
   );
 }
+
 
 

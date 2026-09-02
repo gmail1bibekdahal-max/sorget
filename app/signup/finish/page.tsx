@@ -40,7 +40,7 @@ export default function FinishPage() {
       </p>
 
       <Link
-        href="/pricing"
+        href="/signup/plan"
         className={`${styles.planBtn} ${styles.planBtnFeatured}`}
         style={{ maxWidth: 280, textAlign: "center", textDecoration: "none", display: "inline-block" }}
         onClick={() =>

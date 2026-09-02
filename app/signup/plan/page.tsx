@@ -1,10 +1,9 @@
 "use client";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./Plan.module.css";
 import { track, saveLead } from "@/lib/track";
-
 
 const plans = [
   {
@@ -32,7 +31,23 @@ const plans = [
 ];
 
 export default function PlanPage() {
-  const router = useRouter();
+  const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
+
+  const handleSelectPlan = (planName: string, price: string, period: string) => {
+    track({
+      event_name: "click_select_plan",
+      event_type: "submit",
+      target_text: `Select ${planName} Plan`,
+      properties: { plan: planName, price, period },
+    });
+    saveLead({
+      plan: `${planName} (${price}/${period})`,
+      step_reached: "plan_selected",
+      raw_data: { plan: planName, price },
+    });
+    setSelectedPlan(planName);
+  };
+
   return (
     <div className={styles.page}>
       <Link href="/" className={styles.logo}>
@@ -56,6 +71,27 @@ export default function PlanPage() {
         <br /> We&apos;re currently validating Sorget, so selecting a plan will not charge you.
       </p>
 
+      {/* Thank You overlay modal */}
+      {selectedPlan && (
+        <div className={styles.modalOverlay} onClick={() => setSelectedPlan(null)}>
+          <div className={styles.modalCard} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.modalCheck}>✓</div>
+            <h2 className={styles.modalTitle}>Thank You!</h2>
+            <p className={styles.modalSub}>
+              Thank you for selecting the <strong>{selectedPlan}</strong> plan. We&apos;ve recorded your selection for early access.
+            </p>
+            <div className={styles.modalActions}>
+              <Link href="/" className={styles.modalPrimaryBtn}>
+                Back to Landing Page
+              </Link>
+              <Link href="/login" className={styles.modalSecondaryBtn}>
+                Go to Login
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className={styles.grid}>
         {plans.map((plan) => (
           <div key={plan.name} className={`${styles.card} ${plan.featured ? styles.featured : ""}`}>
@@ -71,20 +107,7 @@ export default function PlanPage() {
             </div>
             <button
               className={`${styles.planBtn} ${plan.featured ? styles.planBtnFeatured : ""}`}
-              onClick={() => {
-                track({
-                  event_name: "click_select_plan",
-                  event_type: "submit",
-                  target_text: `Select ${plan.name} Plan`,
-                  properties: { plan: plan.name, price: plan.price, period: plan.period },
-                });
-                saveLead({
-                  plan: `${plan.name} (${plan.price}/${plan.period})`,
-                  step_reached: "plan_selected",
-                  raw_data: { plan: plan.name, price: plan.price },
-                });
-                router.push("/signup/finish");
-              }}
+              onClick={() => handleSelectPlan(plan.name, plan.price, plan.period)}
             >
               Select Plan
             </button>
@@ -108,6 +131,7 @@ export default function PlanPage() {
               plan: "Enterprise",
               step_reached: "enterprise_intent",
             });
+            setSelectedPlan("Enterprise");
           }}
         >
           Try our Enterprise plan
@@ -116,4 +140,5 @@ export default function PlanPage() {
     </div>
   );
 }
+
 
