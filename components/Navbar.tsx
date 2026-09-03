@@ -30,7 +30,7 @@ export default function Navbar() {
           <Link href="/how-it-works" className={styles.link}>How it Works</Link>
           <Link href="/integrations" className={styles.link}>Integrations</Link>
           <Link href="/pricing" className={styles.link}>Pricing</Link>
-          <Link href="/login" className={styles.link}>Free Demo</Link>
+          <Link href="/contact" className={styles.link}>Contact Us</Link>
         </div>
 
         {/* Desktop actions */}
@@ -60,7 +60,7 @@ export default function Navbar() {
           <Link href="/how-it-works" className={styles.drawerLink} onClick={() => setOpen(false)}>How it Works</Link>
           <Link href="/integrations" className={styles.drawerLink} onClick={() => setOpen(false)}>Integrations</Link>
           <Link href="/pricing" className={styles.drawerLink} onClick={() => setOpen(false)}>Pricing</Link>
-          <Link href="/login" className={styles.drawerLink} onClick={() => setOpen(false)}>Free Demo</Link>
+          <Link href="/contact" className={styles.drawerLink} onClick={() => setOpen(false)}>Contact Us</Link>
           <div className={styles.drawerDivider} />
           <Link href="/login" className={styles.drawerLink} onClick={() => { setOpen(false); track("click_sign_in", { location: "navbar_mobile" }); }}>Sign In</Link>
           <Link href="/signup" className={styles.drawerCta} onClick={() => { setOpen(false); track("click_start_free", { location: "navbar_mobile" }); }}>Start for Free</Link>

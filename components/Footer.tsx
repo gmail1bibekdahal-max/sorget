@@ -9,7 +9,7 @@ const columns = [
       { label: "How It Works", href: "/how-it-works" },
       { label: "Pricing", href: "/pricing" },
       { label: "Integrations", href: "/integrations" },
-      { label: "Free Demo", href: "/login" },
+      { label: "Contact Us", href: "/contact" },
     ],
   },
   {
@@ -32,7 +32,7 @@ const columns = [
     links: [
       { label: "About us", href: "#" },
       { label: "Request Demo", href: "/login" },
-      { label: "Contact us", href: "#" },
+      { label: "Contact us", href: "/contact" },
     ],
   },
 ];
