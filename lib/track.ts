@@ -260,4 +260,53 @@ export async function saveLead(data: LeadPayload) {
   }
 }
 
+export interface ContactPayload {
+  full_name?: string;
+  email: string;
+  company?: string;
+  message: string;
+}
+
+/**
+ * Save contact us submissions into dedicated 'contacts' table in Supabase
+ */
+export async function saveContactMessage(data: ContactPayload) {
+  try {
+    const visitor_id = getVisitorId();
+    const session_id = getSessionId();
+
+    if (data.email) {
+      setUserEmail(data.email);
+    }
+
+    const row = {
+      visitor_id,
+      session_id,
+      full_name: data.full_name || null,
+      email: data.email,
+      company: data.company || null,
+      message: data.message,
+      created_at: new Date().toISOString(),
+    };
+
+    // Insert into 'contacts' table
+    const { error } = await supabase.from("contacts").insert(row);
+    if (error) {
+      console.warn("[Analytics] Insert contact notice:", error.message);
+    }
+
+    // Also sync with leads table
+    await saveLead({
+      full_name: data.full_name,
+      email: data.email,
+      company: data.company,
+      step_reached: "contact_page_form",
+      raw_data: { contact_message: data.message },
+    });
+  } catch (err) {
+    console.warn("[Analytics] Save contact error:", err);
+  }
+}
+
+
 

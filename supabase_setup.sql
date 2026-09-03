@@ -74,6 +74,18 @@ create table if not exists leads (
   updated_at   timestamptz default now()
 );
 
+-- 4b. CREATE CONTACTS TABLE (Stores Contact Us page form submissions)
+create table if not exists contacts (
+  id           bigint generated always as identity primary key,
+  visitor_id   text,
+  session_id   text,
+  full_name    text,
+  email        text not null,
+  company      text,
+  message      text not null,
+  created_at   timestamptz default now()
+);
+
 -- 5. INDEXES FOR FAST QUERYING
 create index if not exists idx_events_event_name on events(event_name);
 create index if not exists idx_events_event_type on events(event_type);
@@ -84,10 +96,13 @@ create index if not exists idx_events_session_id on events(session_id);
 create index if not exists idx_events_created_at on events(created_at desc);
 create index if not exists idx_leads_email on leads(email);
 create index if not exists idx_leads_visitor_id on leads(visitor_id);
+create index if not exists idx_contacts_email on contacts(email);
+create index if not exists idx_contacts_created_at on contacts(created_at desc);
 
 -- 6. ROW LEVEL SECURITY (RLS) POLICIES & GRANTS
 alter table events enable row level security;
 alter table leads enable row level security;
+alter table contacts enable row level security;
 
 -- Clear old policies
 drop policy if exists "allow anon insert on events" on events;
@@ -101,6 +116,8 @@ drop policy if exists "allow anon select on leads" on leads;
 drop policy if exists "allow_all_leads" on leads;
 drop policy if exists "allow_all_leads_anon" on leads;
 
+drop policy if exists "allow_all_contacts" on contacts;
+
 -- Create all-permissive policies for public (covers both anon visitors & authenticated users)
 create policy "allow_all_events" on events
   for all to public using (true) with check (true);
@@ -108,9 +125,13 @@ create policy "allow_all_events" on events
 create policy "allow_all_leads" on leads
   for all to public using (true) with check (true);
 
+create policy "allow_all_contacts" on contacts
+  for all to public using (true) with check (true);
+
 -- Explicitly grant permissions to anon and authenticated roles
 grant all on table events to anon, authenticated, service_role, postgres;
 grant all on table leads to anon, authenticated, service_role, postgres;
+grant all on table contacts to anon, authenticated, service_role, postgres;
 grant usage, select on all sequences in schema public to anon, authenticated, service_role, postgres;
 
 

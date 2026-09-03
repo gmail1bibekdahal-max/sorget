@@ -5,7 +5,7 @@ import Navbar from "@/components/Navbar";
 import GetStarted from "@/components/GetStarted";
 import Footer from "@/components/Footer";
 import styles from "./Contact.module.css";
-import { track, saveLead } from "@/lib/track";
+import { track, saveContactMessage } from "@/lib/track";
 import { Mail, Send, CheckCircle2 } from "lucide-react";
 
 export default function ContactPage() {
@@ -22,18 +22,6 @@ export default function ContactPage() {
 
     setLoading(true);
 
-    const contactPayload = {
-      full_name: fullName,
-      email: email,
-      company: company,
-      step_reached: "contact_form_submission",
-      raw_data: {
-        message: message,
-        submitted_at: new Date().toISOString(),
-        source: "contact_page",
-      },
-    };
-
     // Track analytics event
     track({
       event_name: "submit_contact_form",
@@ -47,8 +35,13 @@ export default function ContactPage() {
       },
     });
 
-    // Save lead data directly into Supabase 'leads' table
-    await saveLead(contactPayload);
+    // Save contact submission directly into Supabase 'contacts' table
+    await saveContactMessage({
+      full_name: fullName,
+      email: email,
+      company: company,
+      message: message,
+    });
 
     setLoading(false);
     setSubmitted(true);
