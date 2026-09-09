@@ -156,11 +156,11 @@ export default function PricingPage() {
               </ul>
 
               <Link
-                href="/login"
+                href={plan.price === "Contact Us" ? "/contact" : `${process.env.NEXT_PUBLIC_APP_URL || "https://app.sorget.site"}/signup`}
                 className={`${styles.planBtn} ${plan.featured ? styles.planBtnFeatured : ""}`}
                 onClick={() =>
                   track({
-                    event_name: "click_pricing_plan_login",
+                    event_name: "click_pricing_plan_cta",
                     event_type: "click",
                     target_text: plan.cta,
                     properties: { page: "pricing", plan: plan.name },
@@ -201,11 +201,11 @@ export default function PricingPage() {
               </ul>
 
               <Link
-                href="/login"
+                href={plan.price === "Contact Us" ? "/contact" : `${process.env.NEXT_PUBLIC_APP_URL || "https://app.sorget.site"}/signup`}
                 className={`${styles.planBtn} ${plan.featured ? styles.planBtnFeatured : ""}`}
                 onClick={() =>
                   track({
-                    event_name: "click_pricing_plan_login",
+                    event_name: "click_pricing_plan_cta",
                     event_type: "click",
                     target_text: plan.cta,
                     properties: { page: "pricing", plan: plan.name },

@@ -9,6 +9,8 @@ import { track } from "@/lib/track";
 export default function Navbar() {
   const [open, setOpen] = useState(false);
 
+  const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://app.sorget.site";
+
   return (
     <nav className={styles.nav}>
       <div className={styles.container}>
@@ -35,10 +37,10 @@ export default function Navbar() {
 
         {/* Desktop actions */}
         <div className={styles.actions}>
-          <Link href="/login" className={styles.signIn} onClick={() => track("click_sign_in", { location: "navbar" })}>
+          <Link href={`${APP_URL}/login`} className={styles.signIn} onClick={() => track("click_sign_in", { location: "navbar" })}>
             Sign In <User size={16} style={{ color: "var(--olvy-pink)" }} />
           </Link>
-          <Link href="/signup" onClick={() => track("click_start_free", { location: "navbar" })}>
+          <Link href={`${APP_URL}/signup`} onClick={() => track("click_start_free", { location: "navbar" })}>
             <button className={styles.startBtn}>
               Start for Free
               <div className={styles.startBtnIcon}>
@@ -62,8 +64,8 @@ export default function Navbar() {
           <Link href="/pricing" className={styles.drawerLink} onClick={() => setOpen(false)}>Pricing</Link>
           <Link href="/contact" className={styles.drawerLink} onClick={() => setOpen(false)}>Contact Us</Link>
           <div className={styles.drawerDivider} />
-          <Link href="/login" className={styles.drawerLink} onClick={() => { setOpen(false); track("click_sign_in", { location: "navbar_mobile" }); }}>Sign In</Link>
-          <Link href="/signup" className={styles.drawerCta} onClick={() => { setOpen(false); track("click_start_free", { location: "navbar_mobile" }); }}>Start for Free</Link>
+          <Link href={`${APP_URL}/login`} className={styles.drawerLink} onClick={() => { setOpen(false); track("click_sign_in", { location: "navbar_mobile" }); }}>Sign In</Link>
+          <Link href={`${APP_URL}/signup`} className={styles.drawerCta} onClick={() => { setOpen(false); track("click_start_free", { location: "navbar_mobile" }); }}>Start for Free</Link>
         </div>
       )}
     </nav>

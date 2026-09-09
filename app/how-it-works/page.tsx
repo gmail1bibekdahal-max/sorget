@@ -17,7 +17,7 @@ export default function HowItWorksPage() {
         <p className={styles.heroSubtitle}>
           Sorget works in 4 simple steps to connect your marketing channels to the leads and customers you're generating.
         </p>
-        <Link href="/signup" className={styles.heroBtn}>Get Started Free</Link>
+        <Link href={`${process.env.NEXT_PUBLIC_APP_URL || "https://app.sorget.site"}/signup`} className={styles.heroBtn}>Get Started Free</Link>
       </section>
 
       {/* Steps */}

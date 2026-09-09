@@ -31,7 +31,7 @@ const columns = [
     heading: "Company",
     links: [
       { label: "About us", href: "#" },
-      { label: "Request Demo", href: "/login" },
+      { label: "Request Demo", href: `${process.env.NEXT_PUBLIC_APP_URL || "https://app.sorget.site"}/login` },
       { label: "Contact us", href: "/contact" },
     ],
   },

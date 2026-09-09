@@ -110,6 +110,8 @@ export default function Hero() {
     };
   }, []);
 
+  const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://app.sorget.site";
+
   return (
     <section className={styles.hero}>
       <canvas ref={canvasRef} className={styles.canvas} />
@@ -118,7 +120,7 @@ export default function Hero() {
         Track the journey from the first website visit to signup, purchase intent, and beyond.
         Understand which marketing channels bring visitors, which ones generate leads, and which ones actually drive revenue.
       </p>
-      <Link href="/signup" className={styles.trialButton} onClick={() => track("click_start_free_trial", { location: "hero" })}>Start Free Trial</Link>
+      <Link href={`${APP_URL}/signup`} className={styles.trialButton} onClick={() => track("click_start_free_trial", { location: "hero" })}>Start Free Trial</Link>
     </section>
   );
 }
