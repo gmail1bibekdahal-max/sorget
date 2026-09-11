@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import GetStarted from "@/components/GetStarted";
@@ -16,93 +15,65 @@ const CheckIcon = ({ featured }: { featured?: boolean }) => (
   </span>
 );
 
-interface SingleSitePlan {
+interface PricingPlan {
   name: string;
   price: string;
-  currencyPeriod: string;
+  currencyPeriod?: string;
   siteCount: string;
   leads: string;
   cta: string;
   featured?: boolean;
 }
 
-interface MultiSitePlan {
-  name: string;
-  price: string;
-  currencyPeriod?: string;
-  siteCount?: string;
-  desc?: string;
-  cta: string;
-  featured?: boolean;
-}
-
-const singleSitePlans: SingleSitePlan[] = [
-  {
-    name: "Lite",
-    price: "$29",
-    currencyPeriod: "USD per month",
-    siteCount: "1 Site",
-    leads: "Up to 100 Leads Per Month",
-    cta: "START FREE TRIAL",
-    featured: false,
-  },
+const plans: PricingPlan[] = [
   {
     name: "Starter",
-    price: "$49",
-    currencyPeriod: "USD per month",
+    price: "$29",
+    currencyPeriod: "/mo",
     siteCount: "1 Site",
-    leads: "Up to 500 Leads Per Month",
+    leads: "100 Leads/month",
     cta: "START FREE TRIAL",
-    featured: true,
+    featured: false,
   },
   {
-    name: "Professional",
+    name: "Growth",
     price: "$99",
-    currencyPeriod: "USD per month",
-    siteCount: "1 Site",
-    leads: "Up to 1,000 Leads Per Month",
+    currencyPeriod: "/mo",
+    siteCount: "3 Sites",
+    leads: "1,000 Leads/month",
     cta: "START FREE TRIAL",
-    featured: false,
-  },
-];
-
-const multiSitePlans: MultiSitePlan[] = [
-  {
-    name: "10 Sites",
-    price: "$199",
-    currencyPeriod: "USD per month",
-    siteCount: "10 Sites",
-    cta: "GET STARTED",
-    featured: false,
-  },
-  {
-    name: "25 Sites",
-    price: "$299",
-    currencyPeriod: "USD per month",
-    siteCount: "25 Sites",
-    cta: "GET STARTED",
     featured: true,
   },
   {
-    name: "50 Sites",
+    name: "Scale",
+    price: "$199",
+    currencyPeriod: "/mo",
+    siteCount: "10 Sites",
+    leads: "10,000 Leads/month",
+    cta: "START FREE TRIAL",
+    featured: false,
+  },
+  {
+    name: "Business",
     price: "$399",
-    currencyPeriod: "USD per month",
-    siteCount: "50 Sites",
-    cta: "GET STARTED",
+    currencyPeriod: "/mo",
+    siteCount: "25 Sites",
+    leads: "25,000 Leads/month",
+    cta: "START FREE TRIAL",
     featured: false,
   },
   {
     name: "Custom",
-    price: "Contact Us",
-    desc: "Tailored multi-site enterprise plans",
+    price: "Contact us",
+    currencyPeriod: "",
+    siteCount: "Custom Sites",
+    leads: "Custom Leads/month",
     cta: "TALK TO US",
     featured: false,
   },
 ];
 
 export default function PricingPage() {
-  const [activeTab, setActiveTab] = useState<"single" | "multiple">("single");
-
   return (
     <div className={styles.page}>
       <Navbar />
@@ -111,119 +82,179 @@ export default function PricingPage() {
         <div className={styles.heroLabel}>Pricing</div>
         <h1 className={styles.heroTitle}>Simple, transparent pricing</h1>
         <p className={styles.heroSubtitle}>Choose the right plan for your business website footprint.</p>
-
-        <div className={styles.tabContainer}>
-          <div className={styles.tabSwitcher}>
-            <button
-              type="button"
-              className={`${styles.tabBtn} ${activeTab === "single" ? styles.tabBtnActive : ""}`}
-              onClick={() => setActiveTab("single")}
-            >
-              Single Site
-            </button>
-            <button
-              type="button"
-              className={`${styles.tabBtn} ${activeTab === "multiple" ? styles.tabBtnActive : ""}`}
-              onClick={() => setActiveTab("multiple")}
-            >
-              Multiple Sites
-            </button>
-          </div>
-        </div>
       </section>
 
-      {activeTab === "single" ? (
-        <div className={styles.cardsSectionSingle}>
-          {singleSitePlans.map((plan) => (
-            <div key={plan.name} className={`${styles.card} ${plan.featured ? styles.cardFeatured : ""}`}>
-              {plan.featured && <div className={styles.featuredBadge}>Most Popular</div>}
+      {/* Cards Section: 3 above, 2 below on desktop */}
+      <div className={styles.cardsContainer}>
+        <div className={styles.cardsRowTop}>
+          {plans.slice(0, 3).map((plan) => {
+            const isContact = plan.price.toLowerCase().includes("contact");
+            const targetHref = isContact
+              ? "/contact"
+              : `${process.env.NEXT_PUBLIC_APP_URL || "https://app.sorget.site"}/signup`;
 
-              <div className={styles.planName}>{plan.name}</div>
-              <div className={styles.planPrice}>{plan.price}</div>
-              <div className={styles.planCurrencyPeriod}>{plan.currencyPeriod}</div>
-
-              <div className={styles.divider} />
-
-              <ul className={styles.featureList}>
-                <li className={styles.featureItem}>
-                  <CheckIcon featured={plan.featured} />
-                  <span>{plan.siteCount}</span>
-                </li>
-                <li className={styles.featureItem}>
-                  <CheckIcon featured={plan.featured} />
-                  <span>{plan.leads}</span>
-                </li>
-              </ul>
-
-              <Link
-                href={plan.price === "Contact Us" ? "/contact" : `${process.env.NEXT_PUBLIC_APP_URL || "https://app.sorget.site"}/signup`}
-                className={`${styles.planBtn} ${plan.featured ? styles.planBtnFeatured : ""}`}
-                onClick={() =>
-                  track({
-                    event_name: "click_pricing_plan_cta",
-                    event_type: "click",
-                    target_text: plan.cta,
-                    properties: { page: "pricing", plan: plan.name },
-                  })
-                }
+            return (
+              <div
+                key={plan.name}
+                className={`${styles.card} ${plan.featured ? styles.cardFeatured : ""}`}
               >
-                {plan.cta}
-              </Link>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div className={styles.cardsSectionMultiple}>
-          {multiSitePlans.map((plan) => (
-            <div key={plan.name} className={`${styles.card} ${plan.featured ? styles.cardFeatured : ""}`}>
-              {plan.featured && <div className={styles.featuredBadge}>Most Popular</div>}
+                {plan.featured && <div className={styles.featuredBadge}>Most Popular</div>}
 
-              <div className={styles.planName}>{plan.name}</div>
-              <div className={plan.price === "Contact Us" ? styles.planPriceText : styles.planPrice}>
-                {plan.price}
+                <div className={styles.planName}>{plan.name}</div>
+
+                <div style={{ display: "flex", alignItems: "baseline", marginTop: "4px" }}>
+                  <span className={isContact ? styles.planPriceText : styles.planPrice}>
+                    {plan.price}
+                  </span>
+                  {plan.currencyPeriod && (
+                    <span className={styles.planCurrencyPeriod}>{plan.currencyPeriod}</span>
+                  )}
+                </div>
+
+                <div className={styles.divider} />
+
+                <ul className={styles.featureList}>
+                  <li className={styles.featureItem}>
+                    <CheckIcon featured={plan.featured} />
+                    <span style={{ fontWeight: 600 }}>{plan.siteCount}</span>
+                  </li>
+                  <li className={styles.featureItem}>
+                    <CheckIcon featured={plan.featured} />
+                    <span>{plan.leads}</span>
+                  </li>
+                  <li className={styles.featureItem}>
+                    <CheckIcon featured={plan.featured} />
+                    <span>Full attribution analytics</span>
+                  </li>
+                  <li className={styles.featureItem}>
+                    <CheckIcon featured={plan.featured} />
+                    <span>CRM &amp; webhook integrations</span>
+                  </li>
+                </ul>
+
+                <Link
+                  href={targetHref}
+                  className={`${styles.planBtn} ${plan.featured ? styles.planBtnFeatured : ""}`}
+                  onClick={() =>
+                    track({
+                      event_name: "click_pricing_plan_cta",
+                      event_type: "click",
+                      target_text: plan.cta,
+                      properties: { page: "pricing", plan: plan.name },
+                    })
+                  }
+                >
+                  {plan.cta}
+                </Link>
               </div>
-              {plan.currencyPeriod && (
-                <div className={styles.planCurrencyPeriod}>{plan.currencyPeriod}</div>
-              )}
-              {plan.desc && <div className={styles.planDesc}>{plan.desc}</div>}
-
-              <div className={styles.divider} />
-
-              <ul className={styles.featureList}>
-                <li className={styles.featureItem}>
-                  <CheckIcon featured={plan.featured} />
-                  <span>{plan.siteCount ? plan.siteCount : "Custom site & lead limit"}</span>
-                </li>
-                <li className={styles.featureItem}>
-                  <CheckIcon featured={plan.featured} />
-                  <span>Full attribution analytics</span>
-                </li>
-              </ul>
-
-              <Link
-                href={plan.price === "Contact Us" ? "/contact" : `${process.env.NEXT_PUBLIC_APP_URL || "https://app.sorget.site"}/signup`}
-                className={`${styles.planBtn} ${plan.featured ? styles.planBtnFeatured : ""}`}
-                onClick={() =>
-                  track({
-                    event_name: "click_pricing_plan_cta",
-                    event_type: "click",
-                    target_text: plan.cta,
-                    properties: { page: "pricing", plan: plan.name },
-                  })
-                }
-              >
-                {plan.cta}
-              </Link>
-            </div>
-          ))}
+            );
+          })}
         </div>
-      )}
+
+        <div className={styles.cardsRowBottom}>
+          {plans.slice(3).map((plan) => {
+            const isContact = plan.price.toLowerCase().includes("contact");
+            const targetHref = isContact
+              ? "/contact"
+              : `${process.env.NEXT_PUBLIC_APP_URL || "https://app.sorget.site"}/signup`;
+
+            return (
+              <div
+                key={plan.name}
+                className={`${styles.card} ${plan.featured ? styles.cardFeatured : ""}`}
+              >
+                {plan.featured && <div className={styles.featuredBadge}>Most Popular</div>}
+
+                <div className={styles.planName}>{plan.name}</div>
+
+                <div style={{ display: "flex", alignItems: "baseline", marginTop: "4px" }}>
+                  <span className={isContact ? styles.planPriceText : styles.planPrice}>
+                    {plan.price}
+                  </span>
+                  {plan.currencyPeriod && (
+                    <span className={styles.planCurrencyPeriod}>{plan.currencyPeriod}</span>
+                  )}
+                </div>
+
+                <div className={styles.divider} />
+
+                <ul className={styles.featureList}>
+                  <li className={styles.featureItem}>
+                    <CheckIcon featured={plan.featured} />
+                    <span style={{ fontWeight: 600 }}>{plan.siteCount}</span>
+                  </li>
+                  <li className={styles.featureItem}>
+                    <CheckIcon featured={plan.featured} />
+                    <span>{plan.leads}</span>
+                  </li>
+                  <li className={styles.featureItem}>
+                    <CheckIcon featured={plan.featured} />
+                    <span>Full attribution analytics</span>
+                  </li>
+                  <li className={styles.featureItem}>
+                    <CheckIcon featured={plan.featured} />
+                    <span>CRM &amp; webhook integrations</span>
+                  </li>
+                </ul>
+
+                <Link
+                  href={targetHref}
+                  className={`${styles.planBtn} ${plan.featured ? styles.planBtnFeatured : ""}`}
+                  onClick={() =>
+                    track({
+                      event_name: "click_pricing_plan_cta",
+                      event_type: "click",
+                      target_text: plan.cta,
+                      properties: { page: "pricing", plan: plan.name },
+                    })
+                  }
+                >
+                  {plan.cta}
+                </Link>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Comparison Table Section */}
+      <section className={styles.tableSection}>
+        <h2 className={styles.tableTitle}>Plan Overview</h2>
+        <div className={styles.tableContainer}>
+          <table className={styles.pricingTable}>
+            <thead>
+              <tr>
+                <th style={{ textAlign: "left" }}>Plan</th>
+                <th style={{ textAlign: "right" }}>Sites</th>
+                <th style={{ textAlign: "right" }}>Leads/month</th>
+                <th style={{ textAlign: "right" }}>Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              {plans.map((p) => (
+                <tr key={p.name} className={p.featured ? styles.tableRowFeatured : ""}>
+                  <td>
+                    <strong>{p.name}</strong>
+                    {p.featured && <span className={styles.tableBadge}>Popular</span>}
+                  </td>
+                  <td style={{ textAlign: "right" }}>
+                    {p.name === "Custom" ? "Custom" : p.siteCount.replace(" Sites", "").replace(" Site", "")}
+                  </td>
+                  <td style={{ textAlign: "right" }}>
+                    {p.name === "Custom" ? "Custom" : p.leads.replace(" Leads/month", "").replace(" leads/month", "")}
+                  </td>
+                  <td style={{ textAlign: "right", fontWeight: 700 }}>
+                    {p.price}{p.currencyPeriod || ""}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
 
       <GetStarted />
       <Footer />
     </div>
   );
 }
-
-
-
