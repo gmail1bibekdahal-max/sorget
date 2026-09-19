@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Suspense } from "react";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
+import { BookDemoProvider } from "@/components/BookDemoContext";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -37,9 +38,10 @@ export default function RootLayout({
         <Suspense fallback={null}>
           <AnalyticsTracker />
         </Suspense>
-        {children}
+        <BookDemoProvider>
+          {children}
+        </BookDemoProvider>
       </body>
     </html>
   );
 }
-

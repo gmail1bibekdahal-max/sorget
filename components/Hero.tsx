@@ -1,11 +1,14 @@
 "use client";
 import { useEffect, useRef } from "react";
 import Link from "next/link";
+import { Calendar } from "lucide-react";
 import styles from "./Hero.module.css";
 import { track } from "@/lib/track";
+import { useBookDemo } from "@/components/BookDemoContext";
 
 export default function Hero() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const { openDemoModal } = useBookDemo();
 
   useEffect(() => {
     const canvas = canvasRef.current!;
@@ -74,7 +77,7 @@ export default function Hero() {
         d.vx *= DAMPEN;
         d.vy *= DAMPEN;
 
-        // organic drift — always wandering
+        // organic drift - always wandering
         d.vx += (Math.random() - 0.5) * 0.15;
         d.vy += (Math.random() - 0.5) * 0.15;
 
@@ -120,7 +123,28 @@ export default function Hero() {
         Track the journey from the first website visit to signup, purchase intent, and beyond.
         Understand which marketing channels bring visitors, which ones generate leads, and which ones actually drive revenue.
       </p>
-      <Link href={`${APP_URL}/signup`} className={styles.trialButton} onClick={() => track("click_start_free_trial", { location: "hero" })}>Start Free Trial</Link>
+
+      {/* Button group: Start Free Trial & Book Demo side by side */}
+      <div className={styles.buttonGroup}>
+        <Link
+          href={`${APP_URL}/signup`}
+          className={styles.trialButton}
+          onClick={() => track("click_start_free_trial", { location: "hero" })}
+        >
+          Start Free Trial
+        </Link>
+        <button
+          type="button"
+          className={styles.demoButton}
+          onClick={() => {
+            openDemoModal();
+            track("click_book_demo", { location: "hero" });
+          }}
+        >
+          <Calendar size={18} />
+          Book Demo
+        </button>
+      </div>
     </section>
   );
 }

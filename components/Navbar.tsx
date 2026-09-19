@@ -2,14 +2,21 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { User, ArrowUpRight, Menu, X } from "lucide-react";
+import { User, Calendar, Menu, X } from "lucide-react";
 import styles from "./Navbar.module.css";
 import { track } from "@/lib/track";
+import { useBookDemo } from "@/components/BookDemoContext";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const { openDemoModal } = useBookDemo();
 
   const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://app.sorget.site";
+
+  const handleBookDemo = (location: string) => {
+    openDemoModal();
+    track("click_book_demo", { location });
+  };
 
   return (
     <nav className={styles.nav}>
@@ -26,7 +33,6 @@ export default function Navbar() {
           <span className={styles.logoText}>Sorget</span>
         </Link>
 
-
         {/* Desktop links */}
         <div className={styles.links}>
           <Link href="/how-it-works" className={styles.link}>How it Works</Link>
@@ -40,14 +46,17 @@ export default function Navbar() {
           <Link href={`${APP_URL}/login`} className={styles.signIn} onClick={() => track("click_sign_in", { location: "navbar" })}>
             Sign In <User size={16} style={{ color: "var(--olvy-pink)" }} />
           </Link>
-          <Link href={`${APP_URL}/signup`} onClick={() => track("click_start_free", { location: "navbar" })}>
-            <button className={styles.startBtn}>
-              Start for Free
-              <div className={styles.startBtnIcon}>
-                <ArrowUpRight size={16} />
-              </div>
-            </button>
-          </Link>
+          <button
+            type="button"
+            className={styles.startBtn}
+            onClick={() => handleBookDemo("navbar")}
+            aria-label="Book Demo"
+          >
+            Book Demo
+            <div className={styles.startBtnIcon}>
+              <Calendar size={15} />
+            </div>
+          </button>
         </div>
 
         {/* Hamburger */}
@@ -65,7 +74,16 @@ export default function Navbar() {
           <Link href="/contact" className={styles.drawerLink} onClick={() => setOpen(false)}>Contact Us</Link>
           <div className={styles.drawerDivider} />
           <Link href={`${APP_URL}/login`} className={styles.drawerLink} onClick={() => { setOpen(false); track("click_sign_in", { location: "navbar_mobile" }); }}>Sign In</Link>
-          <Link href={`${APP_URL}/signup`} className={styles.drawerCta} onClick={() => { setOpen(false); track("click_start_free", { location: "navbar_mobile" }); }}>Start for Free</Link>
+          <button
+            type="button"
+            className={styles.drawerCta}
+            onClick={() => {
+              setOpen(false);
+              handleBookDemo("navbar_mobile");
+            }}
+          >
+            Book Demo
+          </button>
         </div>
       )}
     </nav>
