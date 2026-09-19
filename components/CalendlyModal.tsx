@@ -13,13 +13,15 @@ interface CalendlyModalProps {
 export default function CalendlyModal({ isOpen, onClose, url }: CalendlyModalProps) {
   const [loading, setLoading] = useState(true);
 
-  // Default Calendly scheduling link (configurable via NEXT_PUBLIC_CALENDLY_URL)
-  const defaultCalendlyUrl =
+  // Clean URL: prioritize explicit prop, then env variable (trimmed), then fallback
+  const rawUrl =
     url ||
-    process.env.NEXT_PUBLIC_CALENDLY_URL ||
-    "https://calendly.com/sorget/demo";
+    (process.env.NEXT_PUBLIC_CALENDLY_URL ? process.env.NEXT_PUBLIC_CALENDLY_URL.trim() : "") ||
+    "https://calendly.com/gmail1-bibekdahal/30min";
 
-  // Append embedding parameters for clean presentation
+  const defaultCalendlyUrl = rawUrl.trim();
+
+  // Append embedding parameters for clean, responsive presentation
   const embedUrl = (() => {
     try {
       const parsed = new URL(defaultCalendlyUrl);

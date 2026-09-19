@@ -17,7 +17,7 @@
   gap: 16px;
 }
 
-/* ── Logo ── */
+/* Logo */
 .logo {
   display: inline-flex;
   align-items: center;
@@ -39,7 +39,7 @@
   align-items: center;
 }
 
-/* ── Desktop nav links ── */
+/* Desktop nav links */
 .links {
   display: flex;
   align-items: center;
@@ -61,7 +61,7 @@
   color: var(--olvy-pink);
 }
 
-/* ── Desktop actions ── */
+/* Desktop actions */
 .actions {
   display: flex;
   align-items: center;
@@ -80,23 +80,74 @@
   white-space: nowrap;
 }
 
+/* Animated Book Demo button in navbar */
 .startBtn {
+  position: relative;
   background-color: var(--olvy-dark);
   color: var(--olvy-bg);
   border: none;
   border-radius: 999px;
-  padding: 4px 4px 4px 16px;
+  padding: 4px 4px 4px 18px;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   cursor: pointer;
   font-weight: 700;
   font-size: 14px;
   font-family: inherit;
   white-space: nowrap;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(58, 49, 60, 0.18);
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Subtle continuous ambient pulse glow */
+.startBtn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(187, 12, 104, 0.35), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+/* Shimmer shine wave sweeping across button */
+.startBtn::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -100%;
+  width: 60%;
+  height: 200%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.24),
+    transparent
+  );
+  transform: rotate(25deg);
+  animation: btnShimmer 3.8s infinite ease-in-out;
+  pointer-events: none;
+}
+
+.startBtn:hover {
+  background-color: #272029;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px -4px rgba(187, 12, 104, 0.45), 0 4px 12px rgba(58, 49, 60, 0.25);
+}
+
+.startBtn:hover::before {
+  opacity: 1;
+}
+
+.startBtn:active {
+  transform: translateY(0) scale(0.98);
 }
 
 .startBtnIcon {
+  position: relative;
   background-color: var(--olvy-pink);
   width: 28px;
   height: 28px;
@@ -106,9 +157,47 @@
   align-items: center;
   color: white;
   flex-shrink: 0;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: iconPulse 2.8s infinite ease-in-out;
 }
 
-/* ── Hamburger: HIDDEN on desktop ── */
+.startBtn:hover .startBtnIcon {
+  transform: scale(1.14) rotate(-8deg);
+  background-color: #d8117a;
+  box-shadow: 0 0 14px rgba(187, 12, 104, 0.65);
+  animation: none;
+}
+
+@keyframes btnShimmer {
+  0% {
+    left: -100%;
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  50% {
+    left: 150%;
+    opacity: 0;
+  }
+  100% {
+    left: 150%;
+    opacity: 0;
+  }
+}
+
+@keyframes iconPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(187, 12, 104, 0.5);
+  }
+  50% {
+    transform: scale(1.08);
+    box-shadow: 0 0 0 6px rgba(187, 12, 104, 0);
+  }
+}
+
+/* Hamburger: HIDDEN on desktop */
 .hamburger {
   display: none;
   background: none;
@@ -119,7 +208,7 @@
   flex-shrink: 0;
 }
 
-/* ── Mobile drawer ── */
+/* Mobile drawer */
 .drawer {
   display: flex;
   flex-direction: column;
@@ -154,20 +243,24 @@
   margin-top: 14px;
   background: var(--olvy-pink);
   color: #fff;
-  text-decoration: none;
+  border: none;
+  font-family: inherit;
   font-size: 16px;
   font-weight: 700;
   padding: 14px;
   border-radius: 10px;
   text-align: center;
-  transition: background 0.2s;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 12px rgba(187, 12, 104, 0.3);
 }
 
 .drawerCta:hover {
   background: #9a0a56;
+  transform: translateY(-1px);
 }
 
-/* ── Tablet (769px – 1100px): show links, shrink margins ── */
+/* Tablet (769px - 1100px) */
 @media (max-width: 1100px) {
   .nav {
     margin: 0 40px;
@@ -177,7 +270,7 @@
   }
 }
 
-/* ── Mobile/tablet (≤768px): hide links+actions, show hamburger ── */
+/* Mobile/tablet (<= 768px) */
 @media (max-width: 768px) {
   .nav {
     margin: 0 12px;
@@ -195,7 +288,7 @@
   }
 }
 
-/* ── Small mobile (≤480px) ── */
+/* Small mobile (<= 480px) */
 @media (max-width: 480px) {
   .nav {
     margin: 0;
